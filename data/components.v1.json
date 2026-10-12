@@ -1,0 +1,904 @@
+[
+  {
+    "id": "recovery",
+    "category": "Compute",
+    "role": "recovery",
+    "displayName": "Recovery Compute Host",
+    "description": "Editable reference role for preliminary architecture discussion.",
+    "manufacturer": "HPE",
+    "referenceModel": "HPE ProLiant DL360 Gen11",
+    "status": "reference-only",
+    "allowedZones": [
+      "landing",
+      "vault"
+    ],
+    "defaultZone": "landing",
+    "icon": "Box",
+    "attributes": {
+      "cpus": 2,
+      "cores": 32,
+      "memoryGB": 512,
+      "rackUnits": 1
+    },
+    "editableAttributes": [
+      "cpus",
+      "cores",
+      "memoryGB",
+      "rackUnits"
+    ],
+    "defaultAttributes": {
+      "cpus": 2,
+      "cores": 32,
+      "memoryGB": 512,
+      "rackUnits": 1
+    },
+    "incompatibleWith": [],
+    "requires": [],
+    "bom": {
+      "sku": null
+    },
+    "source": {
+      "name": "V1 reference seed; historical CRV workbook is not current configuration authority",
+      "version": "reference"
+    },
+    "owner": "Unassigned",
+    "reviewer": "Unassigned",
+    "lastReviewedDate": null,
+    "catalogVersion": "1.0.0",
+    "effectiveDate": "2026-10-06"
+  },
+  {
+    "id": "jump",
+    "category": "Compute",
+    "role": "jump",
+    "displayName": "Management / Jump Host",
+    "description": "Editable reference role for preliminary architecture discussion.",
+    "manufacturer": "HPE",
+    "referenceModel": "HPE ProLiant DL20 Gen11",
+    "status": "reference-only",
+    "allowedZones": [
+      "vault"
+    ],
+    "defaultZone": "vault",
+    "icon": "Box",
+    "attributes": {
+      "cores": 4,
+      "memoryGB": 32,
+      "rackUnits": 1
+    },
+    "editableAttributes": [
+      "cores",
+      "memoryGB",
+      "rackUnits"
+    ],
+    "defaultAttributes": {
+      "cores": 4,
+      "memoryGB": 32,
+      "rackUnits": 1
+    },
+    "incompatibleWith": [],
+    "requires": [],
+    "bom": {
+      "sku": null
+    },
+    "source": {
+      "name": "V1 reference seed; historical CRV workbook is not current configuration authority",
+      "version": "reference"
+    },
+    "owner": "Unassigned",
+    "reviewer": "Unassigned",
+    "lastReviewedDate": null,
+    "catalogVersion": "1.0.0",
+    "effectiveDate": "2026-10-06"
+  },
+  {
+    "id": "storage",
+    "category": "Storage",
+    "role": "storage",
+    "displayName": "HPE Alletra Storage MP",
+    "description": "Editable reference role for preliminary architecture discussion.",
+    "manufacturer": "HPE",
+    "referenceModel": "HPE Alletra Storage MP",
+    "status": "reference-only",
+    "allowedZones": [
+      "landing",
+      "vault"
+    ],
+    "defaultZone": "landing",
+    "icon": "Box",
+    "attributes": {
+      "nodes": null,
+      "usableTiB": null,
+      "effectiveTiB": null,
+      "driveSummary": "",
+      "protocol": "Unknown",
+      "rackUnits": null
+    },
+    "editableAttributes": [
+      "nodes",
+      "usableTiB",
+      "effectiveTiB",
+      "driveSummary",
+      "protocol",
+      "rackUnits"
+    ],
+    "defaultAttributes": {
+      "nodes": null,
+      "usableTiB": null,
+      "effectiveTiB": null,
+      "driveSummary": "",
+      "protocol": "Unknown",
+      "rackUnits": null
+    },
+    "incompatibleWith": [],
+    "requires": [],
+    "bom": {
+      "sku": null
+    },
+    "source": {
+      "name": "V1 reference seed; historical CRV workbook is not current configuration authority",
+      "version": "reference"
+    },
+    "owner": "Unassigned",
+    "reviewer": "Unassigned",
+    "lastReviewedDate": null,
+    "catalogVersion": "1.0.0",
+    "effectiveDate": "2026-10-06"
+  },
+  {
+    "id": "tor",
+    "category": "Networking",
+    "role": "tor",
+    "displayName": "Aruba Production / Top-of-Rack Switch",
+    "description": "Editable reference role for preliminary architecture discussion.",
+    "manufacturer": "Aruba",
+    "referenceModel": "Aruba CX 8100",
+    "status": "reference-only",
+    "allowedZones": [
+      "landing",
+      "vault"
+    ],
+    "defaultZone": "landing",
+    "icon": "Box",
+    "attributes": {
+      "ports": null,
+      "speed": "Unknown",
+      "rackUnits": null
+    },
+    "editableAttributes": [
+      "ports",
+      "speed",
+      "rackUnits"
+    ],
+    "defaultAttributes": {
+      "ports": null,
+      "speed": "Unknown",
+      "rackUnits": null
+    },
+    "incompatibleWith": [],
+    "requires": [],
+    "bom": {
+      "sku": null
+    },
+    "source": {
+      "name": "V1 reference seed; historical CRV workbook is not current configuration authority",
+      "version": "reference"
+    },
+    "owner": "Unassigned",
+    "reviewer": "Unassigned",
+    "lastReviewedDate": null,
+    "catalogVersion": "1.0.0",
+    "effectiveDate": "2026-10-06"
+  },
+  {
+    "id": "isolation",
+    "category": "Networking",
+    "role": "isolation",
+    "displayName": "Aruba Isolation / Replication Switch",
+    "description": "Editable reference role for preliminary architecture discussion.",
+    "manufacturer": "Aruba",
+    "referenceModel": "Aruba CX 8100",
+    "status": "reference-only",
+    "allowedZones": [
+      "boundary"
+    ],
+    "defaultZone": "boundary",
+    "icon": "Box",
+    "attributes": {
+      "ports": null,
+      "bandwidth": "Unknown",
+      "segments": "Unknown",
+      "rackUnits": null
+    },
+    "editableAttributes": [
+      "ports",
+      "bandwidth",
+      "segments",
+      "rackUnits"
+    ],
+    "defaultAttributes": {
+      "ports": null,
+      "bandwidth": "Unknown",
+      "segments": "Unknown",
+      "rackUnits": null
+    },
+    "incompatibleWith": [],
+    "requires": [],
+    "bom": {
+      "sku": null
+    },
+    "source": {
+      "name": "V1 reference seed; historical CRV workbook is not current configuration authority",
+      "version": "reference"
+    },
+    "owner": "Unassigned",
+    "reviewer": "Unassigned",
+    "lastReviewedDate": null,
+    "catalogVersion": "1.0.0",
+    "effectiveDate": "2026-10-06"
+  },
+  {
+    "id": "management-switch",
+    "category": "Networking",
+    "role": "management-switch",
+    "displayName": "Aruba Management Switch",
+    "description": "Editable reference role for preliminary architecture discussion.",
+    "manufacturer": "Aruba",
+    "referenceModel": "Aruba CX 6300M",
+    "status": "reference-only",
+    "allowedZones": [
+      "vault"
+    ],
+    "defaultZone": "vault",
+    "icon": "Box",
+    "attributes": {
+      "ports": null,
+      "rackUnits": null
+    },
+    "editableAttributes": [
+      "ports",
+      "rackUnits"
+    ],
+    "defaultAttributes": {
+      "ports": null,
+      "rackUnits": null
+    },
+    "incompatibleWith": [],
+    "requires": [],
+    "bom": {
+      "sku": null
+    },
+    "source": {
+      "name": "V1 reference seed; historical CRV workbook is not current configuration authority",
+      "version": "reference"
+    },
+    "owner": "Unassigned",
+    "reviewer": "Unassigned",
+    "lastReviewedDate": null,
+    "catalogVersion": "1.0.0",
+    "effectiveDate": "2026-10-06"
+  },
+  {
+    "id": "fc",
+    "category": "SAN",
+    "role": "fc",
+    "displayName": "Fibre Channel Switch",
+    "description": "Editable reference role for preliminary architecture discussion.",
+    "manufacturer": "",
+    "referenceModel": "SN3600B",
+    "status": "reference-only",
+    "allowedZones": [
+      "landing",
+      "vault"
+    ],
+    "defaultZone": "landing",
+    "icon": "Box",
+    "attributes": {
+      "ports": null,
+      "speed": "Unknown",
+      "rackUnits": null
+    },
+    "editableAttributes": [
+      "ports",
+      "speed",
+      "rackUnits"
+    ],
+    "defaultAttributes": {
+      "ports": null,
+      "speed": "Unknown",
+      "rackUnits": null
+    },
+    "incompatibleWith": [],
+    "requires": [],
+    "bom": {
+      "sku": null
+    },
+    "source": {
+      "name": "V1 reference seed; historical CRV workbook is not current configuration authority",
+      "version": "reference"
+    },
+    "owner": "Unassigned",
+    "reviewer": "Unassigned",
+    "lastReviewedDate": null,
+    "catalogVersion": "1.0.0",
+    "effectiveDate": "2026-10-06"
+  },
+  {
+    "id": "zerto",
+    "category": "Software",
+    "role": "zerto",
+    "displayName": "HPE Zerto Software / Orchestration Role",
+    "description": "Editable reference role for preliminary architecture discussion.",
+    "manufacturer": "HPE",
+    "referenceModel": "HPE Zerto",
+    "status": "reference-only",
+    "allowedZones": [
+      "landing",
+      "vault"
+    ],
+    "defaultZone": "landing",
+    "icon": "Box",
+    "attributes": {
+      "protectedWorkloads": null,
+      "licenseStatus": "Unknown"
+    },
+    "editableAttributes": [
+      "protectedWorkloads",
+      "licenseStatus"
+    ],
+    "defaultAttributes": {
+      "protectedWorkloads": null,
+      "licenseStatus": "Unknown"
+    },
+    "incompatibleWith": [],
+    "requires": [],
+    "bom": {
+      "sku": null
+    },
+    "source": {
+      "name": "V1 reference seed; historical CRV workbook is not current configuration authority",
+      "version": "reference"
+    },
+    "owner": "Unassigned",
+    "reviewer": "Unassigned",
+    "lastReviewedDate": null,
+    "catalogVersion": "1.0.0",
+    "effectiveDate": "2026-10-06"
+  },
+  {
+    "id": "rack",
+    "category": "Infrastructure",
+    "role": "rack",
+    "displayName": "HPE 42U Rack",
+    "description": "Editable reference role for preliminary architecture discussion.",
+    "manufacturer": "HPE",
+    "referenceModel": "HPE 42U Rack",
+    "status": "reference-only",
+    "allowedZones": [
+      "landing",
+      "vault"
+    ],
+    "defaultZone": "landing",
+    "icon": "Box",
+    "attributes": {
+      "rackUnits": 42
+    },
+    "editableAttributes": [
+      "rackUnits"
+    ],
+    "defaultAttributes": {
+      "rackUnits": 42
+    },
+    "incompatibleWith": [],
+    "requires": [],
+    "bom": {
+      "sku": null
+    },
+    "source": {
+      "name": "V1 reference seed; historical CRV workbook is not current configuration authority",
+      "version": "reference"
+    },
+    "owner": "Unassigned",
+    "reviewer": "Unassigned",
+    "lastReviewedDate": null,
+    "catalogVersion": "1.0.0",
+    "effectiveDate": "2026-10-06"
+  },
+  {
+    "id": "console",
+    "category": "Infrastructure",
+    "role": "console",
+    "displayName": "Rack Console",
+    "description": "Editable reference role for preliminary architecture discussion.",
+    "manufacturer": "",
+    "referenceModel": "",
+    "status": "reference-only",
+    "allowedZones": [
+      "landing",
+      "vault"
+    ],
+    "defaultZone": "landing",
+    "icon": "Box",
+    "attributes": {},
+    "editableAttributes": [],
+    "defaultAttributes": {},
+    "incompatibleWith": [],
+    "requires": [],
+    "bom": {
+      "sku": null
+    },
+    "source": {
+      "name": "V1 reference seed; historical CRV workbook is not current configuration authority",
+      "version": "reference"
+    },
+    "owner": "Unassigned",
+    "reviewer": "Unassigned",
+    "lastReviewedDate": null,
+    "catalogVersion": "1.0.0",
+    "effectiveDate": "2026-10-06"
+  },
+  {
+    "id": "management-cables",
+    "category": "Infrastructure",
+    "role": "management-cables",
+    "displayName": "Management Cabling Group",
+    "description": "Editable reference role for preliminary architecture discussion.",
+    "manufacturer": "",
+    "referenceModel": "",
+    "status": "reference-only",
+    "allowedZones": [
+      "landing",
+      "vault"
+    ],
+    "defaultZone": "landing",
+    "icon": "Box",
+    "attributes": {},
+    "editableAttributes": [],
+    "defaultAttributes": {},
+    "incompatibleWith": [],
+    "requires": [],
+    "bom": {
+      "sku": null
+    },
+    "source": {
+      "name": "V1 reference seed; historical CRV workbook is not current configuration authority",
+      "version": "reference"
+    },
+    "owner": "Unassigned",
+    "reviewer": "Unassigned",
+    "lastReviewedDate": null,
+    "catalogVersion": "1.0.0",
+    "effectiveDate": "2026-10-06"
+  },
+  {
+    "id": "ethernet-cables",
+    "category": "Infrastructure",
+    "role": "ethernet-cables",
+    "displayName": "Ethernet/DAC Cabling Group",
+    "description": "Editable reference role for preliminary architecture discussion.",
+    "manufacturer": "",
+    "referenceModel": "",
+    "status": "reference-only",
+    "allowedZones": [
+      "landing",
+      "vault"
+    ],
+    "defaultZone": "landing",
+    "icon": "Box",
+    "attributes": {},
+    "editableAttributes": [],
+    "defaultAttributes": {},
+    "incompatibleWith": [],
+    "requires": [],
+    "bom": {
+      "sku": null
+    },
+    "source": {
+      "name": "V1 reference seed; historical CRV workbook is not current configuration authority",
+      "version": "reference"
+    },
+    "owner": "Unassigned",
+    "reviewer": "Unassigned",
+    "lastReviewedDate": null,
+    "catalogVersion": "1.0.0",
+    "effectiveDate": "2026-10-06"
+  },
+  {
+    "id": "fc-cables",
+    "category": "Infrastructure",
+    "role": "fc-cables",
+    "displayName": "Fibre Channel Cabling Group",
+    "description": "Editable reference role for preliminary architecture discussion.",
+    "manufacturer": "",
+    "referenceModel": "",
+    "status": "reference-only",
+    "allowedZones": [
+      "landing",
+      "vault"
+    ],
+    "defaultZone": "landing",
+    "icon": "Box",
+    "attributes": {},
+    "editableAttributes": [],
+    "defaultAttributes": {},
+    "incompatibleWith": [],
+    "requires": [],
+    "bom": {
+      "sku": null
+    },
+    "source": {
+      "name": "V1 reference seed; historical CRV workbook is not current configuration authority",
+      "version": "reference"
+    },
+    "owner": "Unassigned",
+    "reviewer": "Unassigned",
+    "lastReviewedDate": null,
+    "catalogVersion": "1.0.0",
+    "effectiveDate": "2026-10-06"
+  },
+  {
+    "id": "deployment",
+    "category": "Services",
+    "role": "deployment",
+    "displayName": "CRV Deployment Base Service",
+    "description": "Editable reference role for preliminary architecture discussion.",
+    "manufacturer": "",
+    "referenceModel": "",
+    "status": "reference-only",
+    "allowedZones": [
+      "landing",
+      "vault"
+    ],
+    "defaultZone": "landing",
+    "icon": "Box",
+    "attributes": {},
+    "editableAttributes": [],
+    "defaultAttributes": {},
+    "incompatibleWith": [],
+    "requires": [],
+    "bom": {
+      "sku": null
+    },
+    "source": {
+      "name": "V1 reference seed; historical CRV workbook is not current configuration authority",
+      "version": "reference"
+    },
+    "owner": "Unassigned",
+    "reviewer": "Unassigned",
+    "lastReviewedDate": null,
+    "catalogVersion": "1.0.0",
+    "effectiveDate": "2026-10-06"
+  },
+  {
+    "id": "vm-addon",
+    "category": "Services",
+    "role": "vm-addon",
+    "displayName": "50-VM Deployment Add-On",
+    "description": "Editable reference role for preliminary architecture discussion.",
+    "manufacturer": "",
+    "referenceModel": "",
+    "status": "reference-only",
+    "allowedZones": [
+      "landing",
+      "vault"
+    ],
+    "defaultZone": "landing",
+    "icon": "Box",
+    "attributes": {},
+    "editableAttributes": [],
+    "defaultAttributes": {},
+    "incompatibleWith": [],
+    "requires": [],
+    "bom": {
+      "sku": null
+    },
+    "source": {
+      "name": "V1 reference seed; historical CRV workbook is not current configuration authority",
+      "version": "reference"
+    },
+    "owner": "Unassigned",
+    "reviewer": "Unassigned",
+    "lastReviewedDate": null,
+    "catalogVersion": "1.0.0",
+    "effectiveDate": "2026-10-06"
+  },
+  {
+    "id": "backup-addon",
+    "category": "Services",
+    "role": "backup-addon",
+    "displayName": "Backup Workload Add-On",
+    "description": "Editable reference role for preliminary architecture discussion.",
+    "manufacturer": "",
+    "referenceModel": "",
+    "status": "reference-only",
+    "allowedZones": [
+      "landing",
+      "vault"
+    ],
+    "defaultZone": "landing",
+    "icon": "Box",
+    "attributes": {},
+    "editableAttributes": [],
+    "defaultAttributes": {},
+    "incompatibleWith": [],
+    "requires": [],
+    "bom": {
+      "sku": null
+    },
+    "source": {
+      "name": "V1 reference seed; historical CRV workbook is not current configuration authority",
+      "version": "reference"
+    },
+    "owner": "Unassigned",
+    "reviewer": "Unassigned",
+    "lastReviewedDate": null,
+    "catalogVersion": "1.0.0",
+    "effectiveDate": "2026-10-06"
+  },
+  {
+    "id": "consulting",
+    "category": "Services",
+    "role": "consulting",
+    "displayName": "Generic Additional Consulting / Custom Services",
+    "description": "Editable reference role for preliminary architecture discussion.",
+    "manufacturer": "",
+    "referenceModel": "",
+    "status": "reference-only",
+    "allowedZones": [
+      "landing",
+      "vault"
+    ],
+    "defaultZone": "landing",
+    "icon": "Box",
+    "attributes": {},
+    "editableAttributes": [],
+    "defaultAttributes": {},
+    "incompatibleWith": [],
+    "requires": [],
+    "bom": {
+      "sku": null
+    },
+    "source": {
+      "name": "V1 reference seed; historical CRV workbook is not current configuration authority",
+      "version": "reference"
+    },
+    "owner": "Unassigned",
+    "reviewer": "Unassigned",
+    "lastReviewedDate": null,
+    "catalogVersion": "1.0.0",
+    "effectiveDate": "2026-10-06"
+  },
+  {
+    "id": "support",
+    "category": "Support",
+    "role": "support",
+    "displayName": "TechCare / Support Placeholder",
+    "description": "Editable reference role for preliminary architecture discussion.",
+    "manufacturer": "",
+    "referenceModel": "",
+    "status": "reference-only",
+    "allowedZones": [
+      "landing",
+      "vault"
+    ],
+    "defaultZone": "landing",
+    "icon": "Box",
+    "attributes": {},
+    "editableAttributes": [],
+    "defaultAttributes": {},
+    "incompatibleWith": [],
+    "requires": [],
+    "bom": {
+      "sku": null
+    },
+    "source": {
+      "name": "V1 reference seed; historical CRV workbook is not current configuration authority",
+      "version": "reference"
+    },
+    "owner": "Unassigned",
+    "reviewer": "Unassigned",
+    "lastReviewedDate": null,
+    "catalogVersion": "1.0.0",
+    "effectiveDate": "2026-10-06"
+  },
+  {
+    "id": "customer-compute",
+    "category": "Customer Supplied",
+    "role": "customer-compute",
+    "displayName": "Customer-Supplied Compute",
+    "description": "Editable reference role for preliminary architecture discussion.",
+    "manufacturer": "Customer",
+    "referenceModel": "",
+    "status": "reference-only",
+    "allowedZones": [
+      "landing",
+      "vault"
+    ],
+    "defaultZone": "landing",
+    "icon": "Box",
+    "attributes": {},
+    "editableAttributes": [],
+    "defaultAttributes": {},
+    "incompatibleWith": [],
+    "requires": [],
+    "bom": {
+      "sku": null
+    },
+    "source": {
+      "name": "V1 reference seed; historical CRV workbook is not current configuration authority",
+      "version": "reference"
+    },
+    "owner": "Unassigned",
+    "reviewer": "Unassigned",
+    "lastReviewedDate": null,
+    "catalogVersion": "1.0.0",
+    "effectiveDate": "2026-10-06"
+  },
+  {
+    "id": "customer-storage",
+    "category": "Customer Supplied",
+    "role": "customer-storage",
+    "displayName": "Customer-Supplied Storage",
+    "description": "Editable reference role for preliminary architecture discussion.",
+    "manufacturer": "Customer",
+    "referenceModel": "",
+    "status": "reference-only",
+    "allowedZones": [
+      "landing",
+      "vault"
+    ],
+    "defaultZone": "landing",
+    "icon": "Box",
+    "attributes": {},
+    "editableAttributes": [],
+    "defaultAttributes": {},
+    "incompatibleWith": [],
+    "requires": [],
+    "bom": {
+      "sku": null
+    },
+    "source": {
+      "name": "V1 reference seed; historical CRV workbook is not current configuration authority",
+      "version": "reference"
+    },
+    "owner": "Unassigned",
+    "reviewer": "Unassigned",
+    "lastReviewedDate": null,
+    "catalogVersion": "1.0.0",
+    "effectiveDate": "2026-10-06"
+  },
+  {
+    "id": "customer-network",
+    "category": "Customer Supplied",
+    "role": "customer-network",
+    "displayName": "Customer-Supplied Networking",
+    "description": "Editable reference role for preliminary architecture discussion.",
+    "manufacturer": "Customer",
+    "referenceModel": "",
+    "status": "reference-only",
+    "allowedZones": [
+      "landing",
+      "vault",
+      "boundary"
+    ],
+    "defaultZone": "landing",
+    "icon": "Box",
+    "attributes": {},
+    "editableAttributes": [],
+    "defaultAttributes": {},
+    "incompatibleWith": [],
+    "requires": [],
+    "bom": {
+      "sku": null
+    },
+    "source": {
+      "name": "V1 reference seed; historical CRV workbook is not current configuration authority",
+      "version": "reference"
+    },
+    "owner": "Unassigned",
+    "reviewer": "Unassigned",
+    "lastReviewedDate": null,
+    "catalogVersion": "1.0.0",
+    "effectiveDate": "2026-10-06"
+  },
+  {
+    "id": "customer-san",
+    "category": "Customer Supplied",
+    "role": "customer-san",
+    "displayName": "Customer-Supplied SAN",
+    "description": "Editable reference role for preliminary architecture discussion.",
+    "manufacturer": "Customer",
+    "referenceModel": "",
+    "status": "reference-only",
+    "allowedZones": [
+      "landing",
+      "vault"
+    ],
+    "defaultZone": "landing",
+    "icon": "Box",
+    "attributes": {},
+    "editableAttributes": [],
+    "defaultAttributes": {},
+    "incompatibleWith": [],
+    "requires": [],
+    "bom": {
+      "sku": null
+    },
+    "source": {
+      "name": "V1 reference seed; historical CRV workbook is not current configuration authority",
+      "version": "reference"
+    },
+    "owner": "Unassigned",
+    "reviewer": "Unassigned",
+    "lastReviewedDate": null,
+    "catalogVersion": "1.0.0",
+    "effectiveDate": "2026-10-06"
+  },
+  {
+    "id": "customer-rack",
+    "category": "Customer Supplied",
+    "role": "customer-rack",
+    "displayName": "Customer-Supplied Rack or Facilities",
+    "description": "Editable reference role for preliminary architecture discussion.",
+    "manufacturer": "Customer",
+    "referenceModel": "",
+    "status": "reference-only",
+    "allowedZones": [
+      "landing",
+      "vault"
+    ],
+    "defaultZone": "landing",
+    "icon": "Box",
+    "attributes": {},
+    "editableAttributes": [],
+    "defaultAttributes": {},
+    "incompatibleWith": [],
+    "requires": [],
+    "bom": {
+      "sku": null
+    },
+    "source": {
+      "name": "V1 reference seed; historical CRV workbook is not current configuration authority",
+      "version": "reference"
+    },
+    "owner": "Unassigned",
+    "reviewer": "Unassigned",
+    "lastReviewedDate": null,
+    "catalogVersion": "1.0.0",
+    "effectiveDate": "2026-10-06"
+  },
+  {
+    "id": "custom",
+    "category": "Custom Component",
+    "role": "custom",
+    "displayName": "Custom Component",
+    "description": "Editable reference role for preliminary architecture discussion.",
+    "manufacturer": "",
+    "referenceModel": "",
+    "status": "reference-only",
+    "allowedZones": [
+      "landing",
+      "boundary",
+      "vault"
+    ],
+    "defaultZone": "landing",
+    "icon": "Box",
+    "attributes": {},
+    "editableAttributes": [],
+    "defaultAttributes": {},
+    "incompatibleWith": [],
+    "requires": [],
+    "bom": {
+      "sku": null
+    },
+    "source": {
+      "name": "V1 reference seed; historical CRV workbook is not current configuration authority",
+      "version": "reference"
+    },
+    "owner": "Unassigned",
+    "reviewer": "Unassigned",
+    "lastReviewedDate": null,
+    "catalogVersion": "1.0.0",
+    "effectiveDate": "2026-10-06"
+  }
+]

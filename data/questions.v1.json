@@ -1,0 +1,12 @@
+{
+  "version": "1.0.0",
+  "questions": [
+    "Confirm available ports",
+    "Confirm replication bandwidth",
+    "Confirm air-gap method",
+    "Confirm customer-supplied infrastructure",
+    "Confirm support term",
+    "Confirm licensing",
+    "Validate final configuration through approved HPE processes"
+  ]
+}

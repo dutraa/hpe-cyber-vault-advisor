@@ -1,0 +1,55 @@
+{
+  "version": "1.0.0",
+  "rules": [
+    {
+      "id": "R-001",
+      "version": "1.0.0",
+      "description": "Workload types required"
+    },
+    {
+      "id": "R-002",
+      "version": "1.0.0",
+      "description": "Workload count and capacity required"
+    },
+    {
+      "id": "R-003",
+      "version": "1.0.0",
+      "description": "Unknown coverage creates a gap"
+    },
+    {
+      "id": "R-004",
+      "version": "1.0.0",
+      "description": "Unknown protocol creates a gap"
+    },
+    {
+      "id": "R-005",
+      "version": "1.0.0",
+      "description": "Default assumptions recorded"
+    },
+    {
+      "id": "R-006",
+      "version": "1.0.0",
+      "description": "Modified suggestions retain originals"
+    },
+    {
+      "id": "R-007",
+      "version": "1.0.0",
+      "description": "Removed required roles need review"
+    },
+    {
+      "id": "R-008",
+      "version": "1.0.0",
+      "description": "Custom items are unvalidated"
+    },
+    {
+      "id": "R-009",
+      "version": "1.0.0",
+      "description": "Customer supplied remains in BOM"
+    },
+    {
+      "id": "R-010",
+      "version": "1.0.0",
+      "description": "Blocking errors prevent export"
+    }
+  ]
+}

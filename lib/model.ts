@@ -1,0 +1,27 @@
+import { z } from 'zod';
+import rawCatalog from '@/data/components.v1.json';
+import rawRules from '@/data/rules.v1.json';
+import rawQuestions from '@/data/questions.v1.json';
+export const zones = ['landing','boundary','vault'] as const;
+export const zoneSchema = z.enum(zones);
+export type Zone = z.infer<typeof zoneSchema>;
+export const attributesSchema = z.record(z.string(),z.union([z.string(),z.number(),z.null()]));
+export const catalogSchema = z.array(z.object({id:z.string(),category:z.string(),role:z.string(),displayName:z.string(),description:z.string(),manufacturer:z.string(),referenceModel:z.string(),status:z.enum(['reference-only','validated','deprecated','hidden']),allowedZones:z.array(zoneSchema),defaultZone:zoneSchema,icon:z.string(),attributes:attributesSchema,editableAttributes:z.array(z.string()),defaultAttributes:attributesSchema,incompatibleWith:z.array(z.string()),requires:z.array(z.string()),bom:z.object({sku:z.string().nullable()}),source:z.object({name:z.string(),version:z.string()}),owner:z.string(),reviewer:z.string(),lastReviewedDate:z.string().nullable(),catalogVersion:z.string(),effectiveDate:z.string()}));
+export const rulesSchema=z.object({version:z.string(),rules:z.array(z.object({id:z.string(),version:z.string(),description:z.string()}))});
+export const questionsSchema=z.object({version:z.string(),questions:z.array(z.string())});
+const parsed=catalogSchema.safeParse(rawCatalog);const parsedRules=rulesSchema.safeParse(rawRules);const parsedQuestions=questionsSchema.safeParse(rawQuestions);
+export const configError=parsed.success&&parsedRules.success&&parsedQuestions.success?null:'Invalid versioned application configuration';
+export const catalog=parsed.success?parsed.data:[];
+export const rules=parsedRules.success?parsedRules.data:{version:'invalid',rules:[]};
+export const questions=parsedQuestions.success?parsedQuestions.data:{version:'invalid',questions:[]};
+export const DISCLAIMER='Preliminary architecture and component list for discovery and planning. Product availability, compatibility, capacity, performance, licensing, services, quantities, and orderability must be validated through approved HPE design and configuration processes before quotation or implementation.';
+export const discoverySchema=z.object({name:z.string().trim().min(1,'Design name is required'),customer:z.string().default(''),notes:z.string().default(''),workloadTypes:z.array(z.string()).min(1,'Select at least one workload type'),workloads:z.coerce.number().int().positive('Enter a positive workload count'),capacity:z.coerce.number().positive('Enter protected data'),unit:z.enum(['TB','TiB']),landingCoverage:z.coerce.number().min(0).max(100).nullable(),vaultCoverage:z.coerce.number().min(0).max(100).nullable(),rpo:z.string(),rto:z.string(),productionBandwidth:z.string(),transferBandwidth:z.string(),protocol:z.string(),landingSwitching:z.string(),delivery:z.string(),retention:z.coerce.number().nonnegative(),changeRate:z.coerce.number().min(0).max(100),growth:z.coerce.number().min(0).max(100),years:z.coerce.number().positive(),reduction:z.coerce.number().min(1),nonReducible:z.coerce.number().min(0).max(100),headroom:z.coerce.number().min(0).max(100),architectureNote:z.string(),airGap:z.string()});
+export type Discovery=z.infer<typeof discoverySchema>;
+export const defaults:Discovery={name:'',customer:'',notes:'',workloadTypes:[],workloads:0,capacity:0,unit:'TiB',landingCoverage:null,vaultCoverage:null,rpo:'Unknown',rto:'Unknown',productionBandwidth:'Unknown',transferBandwidth:'Unknown',protocol:'Unknown',landingSwitching:'Undecided',delivery:'Undecided',retention:7,changeRate:3,growth:10,years:3,reduction:2,nonReducible:0,headroom:20,architectureNote:'',airGap:'Undecided'};
+export const componentSchema=z.object({id:z.string(),catalogId:z.string(),zone:zoneSchema,order:z.number(),quantity:z.number().int().min(1),attributes:attributesSchema,originalAttributes:attributesSchema,state:z.enum(['Suggested','Modified','User Added','Customer Supplied','Custom']),ownership:z.enum(['HPE','Customer','Undecided']),notes:z.string(),name:z.string(),role:z.string(),model:z.string(),ruleId:z.string(),whyIncluded:z.string()});
+export type DesignComponent=z.infer<typeof componentSchema>;
+export const assumptionSchema=z.object({id:z.string(),field:z.string(),value:z.union([z.string(),z.number()]),unit:z.string(),type:z.enum(['User entered','Default','Calculated','Inferred']),ruleId:z.string(),ruleVersion:z.string(),source:z.string(),usedIn:z.string(),overridden:z.boolean(),originalValue:z.union([z.string(),z.number()]),overrideValue:z.union([z.string(),z.number()]).nullable(),timestamp:z.string(),accepted:z.boolean(),customerConfirmed:z.boolean()});
+export type Assumption=z.infer<typeof assumptionSchema>;
+export const designSchema=z.object({schemaVersion:z.literal(1),id:z.string(),createdAt:z.string(),updatedAt:z.string(),appVersion:z.string(),catalogVersion:z.string(),ruleVersion:z.string(),discovery:discoverySchema,components:z.array(componentSchema).max(500),assumptions:z.array(assumptionSchema),suggested:z.array(componentSchema).max(500)});
+export type Design=z.infer<typeof designSchema>;
+export function catalogItem(id:string){return catalog.find(c=>c.id===id)}
