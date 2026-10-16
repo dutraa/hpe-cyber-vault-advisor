@@ -1,2 +1,12 @@
 import { defineConfig } from 'vitest/config';
-export default defineConfig({ test: { environment: 'jsdom', include: ['tests/unit/**/*.test.ts', 'tests/components/**/*.test.tsx'] } });
+import { fileURLToPath } from 'node:url';
+
+const rootDir = fileURLToPath(new URL('.', import.meta.url));
+
+export default defineConfig({
+	resolve: { alias: { '@': rootDir } },
+	test: {
+		environment: 'jsdom',
+		include: ['tests/unit/**/*.test.ts', 'tests/components/**/*.test.tsx'],
+	},
+});

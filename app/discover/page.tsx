@@ -1,7 +1,349 @@
-'use client';
-import {useState} from 'react';import {useRouter} from 'next/navigation';import {useForm} from 'react-hook-form';import {zodResolver} from '@hookform/resolvers/zod';import {defaults,discoverySchema,type Discovery} from '@/lib/model';import {useDesigner} from '@/lib/store';import {recommend,previewChanges} from '@/lib/recommendation-engine';
-const workloads=['VMware virtual machines','Physical or bare-metal servers','Backup workloads','Databases','File and unstructured data','Other'];
-const Select=({label,name,options,register}:{label:string;name:keyof Discovery;options:string[];register:ReturnType<typeof useForm<Discovery>>['register']})=><label className="block text-sm">{label}<select className="field mt-1" {...register(name)}>{options.map(x=><option key={x}>{x}</option>)}</select></label>;
-export default function Discover(){const router=useRouter(),{draft,design,setDraft,generate}=useDesigner();const [pending,setPending]=useState<Discovery|null>(null);const {register,handleSubmit,watch,formState:{errors}}=useForm<Discovery>({resolver:zodResolver(discoverySchema),defaultValues:design?.discovery??draft??defaults});const onSubmit=(data:Discovery)=>{setDraft(data);if(design){setPending(data)}else{generate(data);router.push('/design')}};const coverage=(name:'landingCoverage'|'vaultCoverage',label:string)=><label className="block text-sm">{label}<select className="field mt-1" {...register(name,{setValueAs:v=>v===''?null:Number(v)})}><option value="">Unknown / needs confirmation</option>{[25,50,75,100].map(n=><option value={n} key={n}>{n}%</option>)}<option value="-1">Custom (enter below)</option></select>{Number(watch(name))===-1&&<input className="field mt-2" type="number" min="0" max="100" aria-label={`${label} custom percent`} onChange={e=>{const el=document.querySelector(`select[name=${name}]`) as HTMLSelectElement;if(el)el.value=e.target.value}}/>}</label>;
-const num=(name:keyof Discovery,label:string,assumption=false)=><label className="block text-sm">{label} {assumption&&<span className="badge">Assumption · editable</span>}<input className="field mt-1" type="number" step="any" {...register(name,{valueAsNumber:true})}/>{errors[name]&&<span className="text-red-700 text-xs">{String(errors[name]?.message)}</span>}</label>;
-return <div className="max-w-5xl mx-auto"><div className="mb-7"><span className="badge">STEP 02 / DISCOVER</span><h1 className="text-3xl font-bold mt-3">Start with what we know.</h1><p className="subtle">Unknown is a valid answer. Defaults remain visible as assumptions, not customer-confirmed facts.</p></div><form onSubmit={handleSubmit(onSubmit)} className="space-y-5"><section className="card"><h2 className="text-xl font-bold mb-4">A. Opportunity</h2><div className="grid md:grid-cols-2 gap-4"><label className="text-sm">Design name *<input className="field mt-1" {...register('name')}/><span className="text-red-700 text-xs">{errors.name?.message}</span></label><label className="text-sm">Customer or opportunity (optional)<input className="field mt-1" {...register('customer')}/></label></div><label className="block text-sm mt-4">Notes<textarea className="field mt-1" rows={2} {...register('notes')}/></label></section><section className="card"><h2 className="text-xl font-bold mb-4">B. Protected environment</h2><fieldset><legend className="font-semibold text-sm">Workload types *</legend><div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-2 mt-2">{workloads.map(w=><label className="flex gap-2 items-center text-sm font-normal" key={w}><input type="checkbox" value={w} {...register('workloadTypes')}/>{w}</label>)}</div><span className="text-red-700 text-xs">{errors.workloadTypes?.message}</span></fieldset><div className="grid md:grid-cols-3 gap-4 mt-5">{num('workloads','Number of workloads *')}{num('capacity','Protected data in use *')}<Select label="Unit" name="unit" options={['TiB','TB']} register={register}/>{coverage('landingCoverage','Landing Zone recovery coverage')}{coverage('vaultCoverage','Vault recovery coverage')}<Select label="Target RPO" name="rpo" options={['Unknown','Minutes','Hours','Custom']} register={register}/><Select label="Target RTO / SLA" name="rto" options={['Unknown','Hours','Custom']} register={register}/></div></section><section className="card"><h2 className="text-xl font-bold mb-4">C. Connectivity and ownership</h2><div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4"><Select label="Production to Landing Zone" name="productionBandwidth" options={['Unknown','10 GbE','25 GbE','100 GbE','Custom']} register={register}/><Select label="Landing Zone to Vault transfer" name="transferBandwidth" options={['Unknown','10 GbE','25 GbE','100 GbE','Custom']} register={register}/><Select label="Storage protocol" name="protocol" options={['Unknown','Fibre Channel','iSCSI','Other']} register={register}/><Select label="Landing Zone switching" name="landingSwitching" options={['Undecided','Customer supplied','HPE supplied']} register={register}/><Select label="Delivery model" name="delivery" options={['Undecided','Blended/local and offshore','Local delivery','Services not currently in scope']} register={register}/><Select label="Air-gap method" name="airGap" options={['Undecided','Operationally disconnected','Physically disconnected','Controlled switching','Customer-defined']} register={register}/></div></section><details className="card"><summary className="font-bold cursor-pointer">Advanced assumptions · all editable</summary><div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mt-5">{num('retention','Journal retention (days)',true)}{num('changeRate','Daily change rate (%)',true)}{num('growth','Annual growth (%)',true)}{num('years','Capacity horizon (years)',true)}{num('reduction','Data reduction ratio (:1)',true)}{num('nonReducible','Non-reducible data (%)',true)}{num('headroom','Storage headroom (%)',true)}</div><label className="block text-sm mt-4">Architecture note<textarea className="field mt-1" {...register('architectureNote')}/></label></details><div className="flex justify-between"><button type="button" className="btn" onClick={()=>router.push('/start')}>← Back</button><button className="btn btn-primary">{design?'Preview regeneration':'Generate Starting Design'} →</button></div></form>{pending&&design&&(()=>{const changes=previewChanges(design,recommend(pending));return <div role="dialog" aria-modal="true" aria-label="Regeneration preview" className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"><div className="card max-w-xl w-full"><h2 className="text-xl font-bold">Review proposed changes</h2><p className="text-sm subtle mt-2">Your edited and user-added components are preserved by default. Review conflicts before applying.</p><ul className="text-sm my-4 space-y-1"><li>Added roles: {changes.added.map(c=>c.name).join(', ')||'None'}</li><li>Removed roles: {changes.removed.map(c=>c.name).join(', ')||'None'}</li><li>Preserved edits: {changes.preserved.length}</li><li>Changed assumptions: {changes.assumptions.map(a=>a.field).join(', ')||'None'}</li></ul><div className="flex flex-wrap gap-2"><button className="btn btn-primary" onClick={()=>{generate(pending,true);router.push('/design')}}>Apply Changes</button><button className="btn" onClick={()=>{setPending(null);router.push('/design')}}>Keep Current Design</button><button className="btn" onClick={()=>setPending(null)}>Cancel</button></div></div></div>})()}</div>}
+"use client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  defaults,
+  discoverySchema,
+  type Discovery,
+  type DiscoveryInput,
+} from "@/lib/model";
+import { useDesigner } from "@/lib/store";
+import { recommend, previewChanges } from "@/lib/recommendation-engine";
+const workloads = [
+  "VMware virtual machines",
+  "Physical or bare-metal servers",
+  "Backup workloads",
+  "Databases",
+  "File and unstructured data",
+  "Other",
+];
+const Select = ({
+  label,
+  name,
+  options,
+  register,
+}: {
+  label: string;
+  name: keyof DiscoveryInput;
+  options: string[];
+  register: ReturnType<
+    typeof useForm<DiscoveryInput, unknown, Discovery>
+  >["register"];
+}) => (
+  <label className="block text-sm">
+    {label}
+    <select className="field mt-1" {...register(name)}>
+      {options.map((x) => (
+        <option key={x}>{x}</option>
+      ))}
+    </select>
+  </label>
+);
+export default function Discover() {
+  const router = useRouter(),
+    { draft, design, setDraft, generate } = useDesigner();
+  const [pending, setPending] = useState<Discovery | null>(null);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<DiscoveryInput, unknown, Discovery>({
+    resolver: zodResolver(discoverySchema),
+    defaultValues: design?.discovery ?? draft ?? defaults,
+  });
+  const onSubmit = (data: Discovery) => {
+    setDraft(data);
+    if (design) {
+      setPending(data);
+    } else {
+      generate(data);
+      router.push("/design");
+    }
+  };
+  const coverage = (
+    name: "landingCoverage" | "vaultCoverage",
+    label: string,
+  ) => (
+    <label className="block text-sm">
+      {label}
+      <select
+        className="field mt-1"
+        {...register(name, {
+          setValueAs: (v) => (v === "" ? null : Number(v)),
+        })}
+      >
+        <option value="">Unknown / needs confirmation</option>
+        {[25, 50, 75, 100].map((n) => (
+          <option value={n} key={n}>
+            {n}%
+          </option>
+        ))}
+        <option value="-1">Custom (enter below)</option>
+      </select>
+      {Number(watch(name)) === -1 && (
+        <input
+          className="field mt-2"
+          type="number"
+          min="0"
+          max="100"
+          aria-label={`${label} custom percent`}
+          onChange={(e) => {
+            const el = document.querySelector(
+              `select[name=${name}]`,
+            ) as HTMLSelectElement;
+            if (el) el.value = e.target.value;
+          }}
+        />
+      )}
+    </label>
+  );
+  const num = (name: keyof DiscoveryInput, label: string, assumption = false) => (
+    <label className="block text-sm">
+      {label}{" "}
+      {assumption && <span className="badge">Assumption · editable</span>}
+      <input
+        className="field mt-1"
+        type="number"
+        step="any"
+        {...register(name, { valueAsNumber: true })}
+      />
+      {errors[name] && (
+        <span className="text-red-700 text-xs">
+          {String(errors[name]?.message)}
+        </span>
+      )}
+    </label>
+  );
+  return (
+    <div className="max-w-5xl mx-auto">
+      <div className="mb-7">
+        <span className="badge">STEP 02 / DISCOVER</span>
+        <h1 className="text-3xl font-bold mt-3">Start with what we know.</h1>
+        <p className="subtle">
+          Unknown is a valid answer. Defaults remain visible as assumptions, not
+          customer-confirmed facts.
+        </p>
+      </div>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+        <section className="card">
+          <h2 className="text-xl font-bold mb-4">A. Opportunity</h2>
+          <div className="grid md:grid-cols-2 gap-4">
+            <label className="text-sm">
+              Design name *
+              <input className="field mt-1" {...register("name")} />
+              <span className="text-red-700 text-xs">
+                {errors.name?.message}
+              </span>
+            </label>
+            <label className="text-sm">
+              Customer or opportunity (optional)
+              <input className="field mt-1" {...register("customer")} />
+            </label>
+          </div>
+          <label className="block text-sm mt-4">
+            Notes
+            <textarea className="field mt-1" rows={2} {...register("notes")} />
+          </label>
+        </section>
+        <section className="card">
+          <h2 className="text-xl font-bold mb-4">B. Protected environment</h2>
+          <fieldset>
+            <legend className="font-semibold text-sm">Workload types *</legend>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-2 mt-2">
+              {workloads.map((w) => (
+                <label
+                  className="flex gap-2 items-center text-sm font-normal"
+                  key={w}
+                >
+                  <input
+                    type="checkbox"
+                    value={w}
+                    {...register("workloadTypes")}
+                  />
+                  {w}
+                </label>
+              ))}
+            </div>
+            <span className="text-red-700 text-xs">
+              {errors.workloadTypes?.message}
+            </span>
+          </fieldset>
+          <div className="grid md:grid-cols-3 gap-4 mt-5">
+            {num("workloads", "Number of workloads *")}
+            {num("capacity", "Protected data in use *")}
+            <Select
+              label="Unit"
+              name="unit"
+              options={["TiB", "TB"]}
+              register={register}
+            />
+            {coverage("landingCoverage", "Landing Zone recovery coverage")}
+            {coverage("vaultCoverage", "Vault recovery coverage")}
+            <Select
+              label="Target RPO"
+              name="rpo"
+              options={["Unknown", "Minutes", "Hours", "Custom"]}
+              register={register}
+            />
+            <Select
+              label="Target RTO / SLA"
+              name="rto"
+              options={["Unknown", "Hours", "Custom"]}
+              register={register}
+            />
+          </div>
+        </section>
+        <section className="card">
+          <h2 className="text-xl font-bold mb-4">
+            C. Connectivity and ownership
+          </h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <Select
+              label="Production to Landing Zone"
+              name="productionBandwidth"
+              options={["Unknown", "10 GbE", "25 GbE", "100 GbE", "Custom"]}
+              register={register}
+            />
+            <Select
+              label="Landing Zone to Vault transfer"
+              name="transferBandwidth"
+              options={["Unknown", "10 GbE", "25 GbE", "100 GbE", "Custom"]}
+              register={register}
+            />
+            <Select
+              label="Storage protocol"
+              name="protocol"
+              options={["Unknown", "Fibre Channel", "iSCSI", "Other"]}
+              register={register}
+            />
+            <Select
+              label="Landing Zone switching"
+              name="landingSwitching"
+              options={["Undecided", "Customer supplied", "HPE supplied"]}
+              register={register}
+            />
+            <Select
+              label="Delivery model"
+              name="delivery"
+              options={[
+                "Undecided",
+                "Blended/local and offshore",
+                "Local delivery",
+                "Services not currently in scope",
+              ]}
+              register={register}
+            />
+            <Select
+              label="Air-gap method"
+              name="airGap"
+              options={[
+                "Undecided",
+                "Operationally disconnected",
+                "Physically disconnected",
+                "Controlled switching",
+                "Customer-defined",
+              ]}
+              register={register}
+            />
+          </div>
+        </section>
+        <details className="card">
+          <summary className="font-bold cursor-pointer">
+            Advanced assumptions · all editable
+          </summary>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mt-5">
+            {num("retention", "Journal retention (days)", true)}
+            {num("changeRate", "Daily change rate (%)", true)}
+            {num("growth", "Annual growth (%)", true)}
+            {num("years", "Capacity horizon (years)", true)}
+            {num("reduction", "Data reduction ratio (:1)", true)}
+            {num("nonReducible", "Non-reducible data (%)", true)}
+            {num("headroom", "Storage headroom (%)", true)}
+          </div>
+          <label className="block text-sm mt-4">
+            Architecture note
+            <textarea
+              className="field mt-1"
+              {...register("architectureNote")}
+            />
+          </label>
+        </details>
+        <div className="flex justify-between">
+          <button
+            type="button"
+            className="btn"
+            onClick={() => router.push("/start")}
+          >
+            ← Back
+          </button>
+          <button className="btn btn-primary">
+            {design ? "Preview regeneration" : "Generate Starting Design"} →
+          </button>
+        </div>
+      </form>
+      {pending &&
+        design &&
+        (() => {
+          const changes = previewChanges(design, recommend(pending));
+          return (
+            <div
+              role="dialog"
+              aria-modal="true"
+              aria-label="Regeneration preview"
+              className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+            >
+              <div className="card max-w-xl w-full">
+                <h2 className="text-xl font-bold">Review proposed changes</h2>
+                <p className="text-sm subtle mt-2">
+                  Your edited and user-added components are preserved by
+                  default. Review conflicts before applying.
+                </p>
+                <ul className="text-sm my-4 space-y-1">
+                  <li>
+                    Added roles:{" "}
+                    {changes.added.map((c) => c.name).join(", ") || "None"}
+                  </li>
+                  <li>
+                    Removed roles:{" "}
+                    {changes.removed.map((c) => c.name).join(", ") || "None"}
+                  </li>
+                  <li>Preserved edits: {changes.preserved.length}</li>
+                  <li>
+                    Changed assumptions:{" "}
+                    {changes.assumptions.map((a) => a.field).join(", ") ||
+                      "None"}
+                  </li>
+                </ul>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => {
+                      generate(pending, true);
+                      router.push("/design");
+                    }}
+                  >
+                    Apply Changes
+                  </button>
+                  <button
+                    className="btn"
+                    onClick={() => {
+                      setPending(null);
+                      router.push("/design");
+                    }}
+                  >
+                    Keep Current Design
+                  </button>
+                  <button className="btn" onClick={() => setPending(null)}>
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          );
+        })()}
+    </div>
+  );
+}
